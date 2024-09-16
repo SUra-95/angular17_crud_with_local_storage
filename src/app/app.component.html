@@ -8,24 +8,24 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-3">
+    <div class="col-3" *ngFor="let item of studentList; let i = index">
       <div class="card">
         <div class="card-header">
           <div class="row">
             <div class="col-6">
-              Student Name
+              {{ item.name }}
             </div>
             <div class="col-6 text-end">
-              Mobile No:
+              {{ item.mobileNo }} No:
             </div>
           </div>
         </div>
         <div class="card-body">
-          <p>City, State, Pincode</p>
-          <p>Address</p>
+          <p>{{ item.city }}, {{ item.state }}, {{ item.pincode }}</p>
+          <p>{{ item.address }}</p>
         </div>
         <div class="card-footer text-end">
-          <p>Email</p>
+          <p>{{ item.email }}</p>
         </div>
       </div>
     </div>
@@ -38,19 +38,56 @@
     <div class="modal-content">
 
       <!-- Modal Header -->
-         <div class="modal-header d-flex justify-content-between">
-           <h4 class="modal-title">Create New Student</h4>
-           <button type="button" class="close rounded border-none" (click)="closeModal()" data-dismiss="modal">&times;</button>
-         </div>
- 
+      <div class="modal-header d-flex justify-content-between">
+        <h4 class="modal-title">Create New Student</h4>
+        <button type="button" class="close rounded border-none" (click)="closeModal()"
+          data-dismiss="modal">&times;</button>
+      </div>
+
       <!-- Modal body -->
       <div class="modal-body">
-        Modal body..
+        <div class="row">
+          <div class="col-12">
+            <label for="">Name </label>
+            <input type="text" [(ngModel)]="studentObj.name" class="form-control" placeholder="Name">
+          </div>
+        </div>
+        <div class="row pt-3">
+          <div class="col-6">
+            <label for="">Mobile No </label>
+            <input type="text" [(ngModel)]="studentObj.mobileNo" class="form-control" placeholder="Mobile No">
+          </div>
+          <div class="col-6">
+            <label for="">Email </label>
+            <input type="text" [(ngModel)]="studentObj.email" class="form-control" placeholder="Email">
+          </div>
+        </div>
+        <div class="row pt-3">
+          <div class="col-4">
+            <label for="">City</label>
+            <input type="text" [(ngModel)]="studentObj.city" class="form-control" placeholder="City">
+          </div>
+          <div class="col-4">
+            <label for="">State </label>
+            <input type="text" [(ngModel)]="studentObj.state" class="form-control" placeholder="State">
+          </div>
+          <div class="col-4">
+            <label for="">Pincode </label>
+            <input type="text" [(ngModel)]="studentObj.pincode" class="form-control" placeholder="Pincode">
+          </div>
+        </div>
+        <div class="row pt-3">
+          <div class="col-12">
+            <label for="">Address</label>
+            <textarea name="" id="" rows="3" class="form-control"></textarea>
+          </div>
+        </div>
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeModal()" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="saveStudent()" data-dismiss="modal">Save</button>
       </div>
 
     </div>
