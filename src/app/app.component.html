@@ -7,29 +7,45 @@
       <button class="btn btn-outline-success" (click)="openModal()">Add New +</button>
     </div>
   </div>
-  <div class="row">
-    <div class="col-3" *ngFor="let item of studentList; let i = index">
-      <div class="card">
-        <div class="card-header">
-          <div class="row">
-            <div class="col-6">
-              {{ item.name }}
+  @if (studentList.length !== 0 ) {
+    <div class="row mt-4">
+      <div class="col-3" *ngFor="let item of studentList; let i = index">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-6">
+                {{ item.name }}
+              </div>
+              <div class="col-6 text-end">
+                {{ item.mobileNo }} No:
+              </div>
             </div>
-            <div class="col-6 text-end">
-              {{ item.mobileNo }} No:
+          </div>
+          <div class="card-body">
+            <p>{{ item.city }}, {{ item.state }}, {{ item.pincode }}</p>
+            <p>{{ item.address }}</p>
+          </div>
+          <div class="card-footer ">
+            <div class="row">
+              <div class="col-7">
+                <small>{{ item.email }}</small>
+              </div>
+              <div class="col-5">
+                <button class="btn btn-sm btn-primary" (click)="onEdit(item)"> Edit </button>
+                <button class="btn btn-sm btn-danger" (click)="onDelete(item)"> Delete </button>
+              </div>
             </div>
           </div>
         </div>
-        <div class="card-body">
-          <p>{{ item.city }}, {{ item.state }}, {{ item.pincode }}</p>
-          <p>{{ item.address }}</p>
-        </div>
-        <div class="card-footer text-end">
-          <p>{{ item.email }}</p>
-        </div>
       </div>
     </div>
-  </div>
+  } @else {
+    <div class="row mt-5">
+      <div class="col-12 text-center">
+        <p class="h5 text-danger"> No records found. Create New Records</p>
+      </div>
+    </div>
+  }
 </div>
 
 <!-- The Modal -->
@@ -39,7 +55,11 @@
 
       <!-- Modal Header -->
       <div class="modal-header d-flex justify-content-between">
-        <h4 class="modal-title">Create New Student</h4>
+        @if (studentObj.id == 0) {
+          <h4 class="modal-title">Create New Student</h4>
+        } @else {
+          <h4 class="modal-title">Edit Student</h4>
+        }
         <button type="button" class="close rounded border-none" (click)="closeModal()"
           data-dismiss="modal">&times;</button>
       </div>
@@ -79,7 +99,7 @@
         <div class="row pt-3">
           <div class="col-12">
             <label for="">Address</label>
-            <textarea name="" id="" rows="3" class="form-control"></textarea>
+            <textarea name="" id="" rows="3" class="form-control" [(ngModel)]="studentObj.address"></textarea>
           </div>
         </div>
       </div>
@@ -87,7 +107,11 @@
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="closeModal()" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="saveStudent()" data-dismiss="modal">Save</button>
+        @if (studentObj.id == 0 ) {
+          <button type="button" class="btn btn-primary" (click)="saveStudent()" data-dismiss="modal">Save</button>
+        } @else {
+          <button type="button" class="btn btn-success" (click)="updateStudent()" data-dismiss="modal">Update</button>
+        }
       </div>
 
     </div>

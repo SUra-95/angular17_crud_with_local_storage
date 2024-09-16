@@ -35,28 +35,62 @@ export class AppComponent implements OnInit {
     if (this.modal && this.modal.nativeElement) {
       this.modal.nativeElement.style.display = 'none';
     }
+    this.studentObj = new Student();
+  }
+
+  onEdit(item: Student) {
+    this.studentObj = item;
+    this.openModal();
+  }
+
+  updateStudent() {
+    const currentRecord = this.studentList.find(n => n.id === this.studentObj.id);
+    if (currentRecord != undefined) {
+      currentRecord.name = this.studentObj.name;
+      currentRecord.mobileNo = this.studentObj.mobileNo;
+      currentRecord.email = this.studentObj.name;
+      currentRecord.city = this.studentObj.city;
+      currentRecord.state = this.studentObj.state;
+      currentRecord.pincode = this.studentObj.pincode;
+      currentRecord.address = this.studentObj.address;
+    };
+    localStorage.setItem('angular17crud', JSON.stringify(this.studentList));
+    this.closeModal();
+
   }
 
   saveStudent() {
     const isLocalpresent = localStorage.getItem('angular17crud');
     if (isLocalpresent != null) {
       const oldArray = JSON.parse(isLocalpresent);
+      this.studentObj.id = oldArray.length + 1;
       oldArray.push(this.studentObj);
       localStorage.setItem('angular17crud', JSON.stringify(oldArray));
       this.studentList = oldArray;
     } else {
       const newArr = [];
       newArr.push(this.studentObj);
-      localStorage.setItem('angular17crud', JSON.stringify(newArr));
+      this.studentObj.id = 1;
       this.studentList = newArr;
+      localStorage.setItem('angular17crud', JSON.stringify(newArr));
     }
     this.studentObj = new Student();
     this.closeModal();
+  }
+
+  onDelete(item: Student) {
+    const isDelete = confirm('Are you sure you want to delete');
+    if (isDelete) {
+      const currentRecord = this.studentList.findIndex(n => n.id === this.studentObj.id);
+      this.studentList.splice(currentRecord,1);
+      localStorage.setItem('angular17crud', JSON.stringify(this.studentList));
+    }
   }
 }
 
 
 export class Student {
+  id: number;
   name: string;
   mobileNo: string;
   email: string;
@@ -66,6 +100,7 @@ export class Student {
   address: string;
 
   constructor() {
+    this.id = 0;
     this.name = '';
     this.mobileNo = '';
     this.email = '';
